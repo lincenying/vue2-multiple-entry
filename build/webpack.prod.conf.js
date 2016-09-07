@@ -36,8 +36,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: utils.assetsPath('js/[name].[chunkhash].js')
+            names: ["common", "vendor"]
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -54,7 +53,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
 Object.keys(entris).forEach(function(entry) {
     baseWebpackConfig.plugins.push(
         new HtmlWebpackPlugin({
-            chunks: ['vendor', entry],
+            chunks: ['vendor', 'common', entry],
             filename: entry + '.html',
             template: 'template/index.html',
             inject: true,
