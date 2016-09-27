@@ -37,13 +37,11 @@ baseWebpackConfig = {
         loaders: [{
             test: /\.vue$/,
             loader: 'vue',
-            happy: { id: 'vue' }
         }, {
             test: /\.js$/,
             loader: 'babel',
             include: projectRoot,
-            exclude: /node_modules/,
-            happy: { id: 'js' }
+            exclude: /node_modules/
         }, {
             test: /\.json$/,
             loader: 'json'
@@ -73,8 +71,6 @@ baseWebpackConfig = {
         autoprefixer({ browsers: browserslist('last 2 version, > 0.1%')})
     ],
     plugins: [
-        new HappyPack({ id: 'vue', threads: 4 }),
-        new HappyPack({ id: 'js', threads: 4 }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
