@@ -2,7 +2,6 @@ var path = require('path')
 var webpack = require('webpack')
 var autoprefixer = require('autoprefixer')
 var browserslist = require('browserslist')
-var HappyPack = require('happypack')
 
 var config = require('../config')
 var utils = require('./utils')
@@ -36,14 +35,12 @@ baseWebpackConfig = {
     module: {
         loaders: [{
             test: /\.vue$/,
-            loader: 'vue',
-            happy: { id: 'vue' }
+            loader: 'vue'
         }, {
             test: /\.js$/,
             loader: 'babel',
             include: projectRoot,
-            exclude: /node_modules/,
-            happy: { id: 'js' }
+            exclude: /node_modules/
         }, {
             test: /\.json$/,
             loader: 'json'
@@ -73,8 +70,6 @@ baseWebpackConfig = {
         autoprefixer({ browsers: browserslist('last 2 version, > 0.1%')})
     ],
     plugins: [
-        new HappyPack({ id: 'vue', threads: 4 }),
-        new HappyPack({ id: 'js', threads: 4 }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
