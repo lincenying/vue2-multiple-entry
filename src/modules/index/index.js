@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import Module1 from '../views/Module1.vue'
+import App from './app.vue'
 
 const app = new Vue({
-    ...Module1
+    ...App
 })
 
 app.$mount('#app')

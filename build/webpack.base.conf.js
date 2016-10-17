@@ -4,7 +4,7 @@ var autoprefixer = require('autoprefixer')
 var browserslist = require('browserslist')
 var HappyPack = require('happypack')
 
-var config = require('../config')
+var config = require('./config')
 var utils = require('./utils')
 var entris = require('./entris')
 var projectRoot = path.resolve(__dirname, '../')
@@ -18,12 +18,9 @@ baseWebpackConfig = {
         publicPath: config.build.assetsPublicPath,
         filename: '[name].js'
     },
-    externals: {
-        'jquery': 'jQuery'
-    },
     resolve: {
-        extensions: ['', '.js', '.vue'],
-        fallback: [path.join(__dirname, '../node_modules')],
+        extensions: ['.js', '.vue'],
+        modules: [path.join(__dirname, '../node_modules')],
         alias: {
             'src': path.resolve(__dirname, '../src'),
             'assets': path.resolve(__dirname, '../src/assets'),
@@ -31,10 +28,10 @@ baseWebpackConfig = {
         }
     },
     resolveLoader: {
-        fallback: [path.join(__dirname, '../node_modules')]
+        modules: [path.join(__dirname, '../node_modules')]
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.vue$/,
             loader: 'vue',
         }, {
@@ -64,17 +61,15 @@ baseWebpackConfig = {
             }
         }]
     },
-    vue: {
-        loaders: utils.cssLoaders()
-    },
-    postcss: [
-        autoprefixer({ browsers: browserslist('last 2 version, > 0.1%')})
-    ],
     plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                context: __dirname,
+                postcss: [ autoprefixer({ browsers: browserslist('last 2 version, > 0.1%')}) ],
+                vue: {
+                    loaders: utils.cssLoaders()
+                }
+            }
         })
     ]
 }

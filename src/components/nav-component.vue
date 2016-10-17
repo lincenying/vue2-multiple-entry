@@ -12,5 +12,8 @@
         <li class="tag-other">
             <a href="/module3.html"><i></i>module3</router-link>
         </li>
+        <li class="tag-other">
+            <a href="/module4.html"><i></i>module4</router-link>
+        </li>
     </ul>
 </template>

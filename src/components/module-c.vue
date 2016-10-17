@@ -1,5 +1,5 @@
 <template>
-    <div class="class3">this is module 2</div>
+    <div class="class3">this is module 3</div>
 </template>
 <style>
 .class3 {

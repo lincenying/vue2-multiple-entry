@@ -1,5 +1,5 @@
 var path = require("path")
-var config = require('../config')
+var config = require('./config')
 var utils = require('./utils')
 var entris = require('./entris')
 var webpack = require('webpack')
@@ -12,7 +12,7 @@ config.build.productionSourceMap = false
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     module: {
-        loaders: utils.styleLoaders({
+        rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
             extract: true
         })
@@ -22,12 +22,6 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-    },
-    vue: {
-        loaders: utils.cssLoaders({
-            sourceMap: config.build.productionSourceMap,
-            extract: true
-        })
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -45,7 +39,15 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         }),
         new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
         new webpack.LoaderOptionsPlugin({
-            minimize: true
+            minimize: true,
+            options: {
+                vue: {
+                    loaders: utils.cssLoaders({
+                        sourceMap: config.build.productionSourceMap,
+                        extract: true
+                    })
+                }
+            }
         })
     ]
 })

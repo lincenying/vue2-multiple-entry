@@ -8,7 +8,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = merge(baseWebpackConfig, {
     module: {
-        loaders: utils.styleLoaders()
+        rules: utils.styleLoaders()
     },
     output: {
         publicPath: '/'
