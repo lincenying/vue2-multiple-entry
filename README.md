@@ -1,8 +1,8 @@
 # vue2 多页配置实例
 
 ```
-// 安装依赖 (不推荐用cnpm安装)
-npm install
+// 安装依赖
+npm install  or  yarn
 
 // 生产模式
 npm run build
