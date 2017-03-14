@@ -6,6 +6,8 @@
 
 在 module 文件夹中只留一个模块, 就变成 纯`SPA`
 
+所有模块均带`ajax`例子, 任何不带`ajax`的例子都是刷流氓
+
 DEMO: http://old.mmxiaowu.com/vue2-multiple-entry/
 
 ```
