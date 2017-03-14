@@ -21,7 +21,6 @@ export default {
         views
     },
     async mounted() {
-        console.log(this.$store)
         const id = this.$route.params.id
         this.$store.dispatch('topic/getTopic', {id})
     }

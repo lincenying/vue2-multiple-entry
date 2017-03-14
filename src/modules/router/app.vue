@@ -10,6 +10,10 @@
 <script lang="babel">
 import navComponent from '~components/nav-component.vue'
 import navList from './components/nav-list.vue'
+
+import 'nprogress/nprogress.css'
+import 'toastr/build/toastr.min.css'
+
 export default {
     name: 'router-app',
     computed: {
