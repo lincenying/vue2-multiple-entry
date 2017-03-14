@@ -1,4 +1,4 @@
-/* global require, exports, path */
+/* global require, exports */
 
 var path = require('path')
 var config = require('../config')
@@ -15,6 +15,7 @@ exports.cssLoaders = function(options) {
     options = options || {}
     // generate loader string to be used with extract text plugin
     function generateLoaders(loaders) {
+        loaders = ['css', 'postcss'].concat(loaders)
         var sourceLoader = loaders.map(function(loader) {
             var extraParamChar
             if (/\?/.test(loader)) {
@@ -30,7 +31,7 @@ exports.cssLoaders = function(options) {
         }).join('!')
 
         if (options.extract) {
-            return ExtractTextPlugin.extract({fallbackLoader: 'vue-style-loader', loader: sourceLoader})
+            return ExtractTextPlugin.extract({fallback: 'vue-style-loader', use: sourceLoader})
         } else {
             return ['vue-style-loader', sourceLoader].join('!')
         }
@@ -38,11 +39,11 @@ exports.cssLoaders = function(options) {
 
     // http://vuejs.github.io/vue-loader/configurations/extract-css.html
     return {
-        css: generateLoaders(['css', 'postcss']),
-        postcss: generateLoaders(['css', 'postcss']),
-        less: generateLoaders(['css', 'postcss', 'less']),
-        sass: generateLoaders(['css', 'postcss', 'sass?indentedSyntax']),
-        scss: generateLoaders(['css', 'postcss', 'sass'])
+        css: generateLoaders([]),
+        postcss: generateLoaders([]),
+        less: generateLoaders(['less']),
+        sass: generateLoaders(['sass?indentedSyntax']),
+        scss: generateLoaders(['sass'])
     }
 }
 

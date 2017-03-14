@@ -1,15 +1,11 @@
 <template>
-    <div class="g-doc">
-        <nav-component :current="3" />
-        <modules :list="list" />
-    </div>
+    <modules :list="list" />
 </template>
 <script lang="babel">
 import navComponent from '~components/nav-component.vue'
-import modules from '~components/module-3.vue'
+import modules from '../components/list.vue'
 import api from '~api'
 export default {
-    name: 'module-3-app',
     data() {
         return {
             list: []
@@ -20,7 +16,7 @@ export default {
         modules
     },
     async mounted() {
-        const {success, data} = await api.get('topics', {page: 3})
+        const {success, data} = await api.get('topics', {page: 4})
         if (success) this.list = data
     }
 }

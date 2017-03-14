@@ -1,14 +1,15 @@
 <template>
     <div class="g-doc">
         <nav-component :current="1" />
-        <moduleE :list="list" />
+        <modules :list="list" />
     </div>
 </template>
 <script lang="babel">
-import navComponent from '../../components/nav-component.vue'
-import moduleE from '../../components/module-e.vue'
-import {getTopics} from '../../api'
+import navComponent from '~components/nav-component.vue'
+import modules from '~components/module-1.vue'
+import api from '~api'
 export default {
+    name: 'index-app',
     data() {
         return {
             list: []
@@ -16,12 +17,11 @@ export default {
     },
     components: {
         navComponent,
-        moduleE
+        modules
     },
-    mounted() {
-        getTopics({page: 1}).then(({data}) => {
-            this.list = data
-        })
+    async mounted() {
+        const {success, data} = await api.get('topics', {page: 1})
+        if (success) this.list = data
     }
 }
 </script>

@@ -20,8 +20,8 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         : false,
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+        filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash:7].js')
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -41,7 +41,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
+        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             options: {
@@ -56,9 +56,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
 
 Object.keys(entris).forEach(function(entry) {
     baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
-        chunks: [
-            'manifest', 'vendor', entry
-        ],
+        chunks: [ 'manifest', 'vendor', entry ],
         filename: entry + '.html',
         template: 'src/template/index.html',
         inject: true,

@@ -33,10 +33,17 @@ var baseWebpackConfig = {
         extensions: [
             '.js', '.vue'
         ],
-        modules: [path.join(__dirname, '../node_modules')],
+        modules: [
+            path.join(__dirname, '../node_modules'),
+        ],
         alias: {
-            'src': path.resolve(__dirname, '../src'),
-            'components': path.resolve(__dirname, '../src/components')
+            '~src': path.resolve(__dirname, '../src'),
+            '~api': path.resolve(__dirname, '../src/api/index'),
+            '~api-config': path.resolve(__dirname, '../src/api/config'),
+            '~components': path.resolve(__dirname, '../src/components'),
+            '~pages': path.resolve(__dirname, '../src/pages'),
+            '~store': path.resolve(__dirname, '../src/store'),
+            '~utils': path.resolve(__dirname, '../src/utils'),
         }
     },
     resolveLoader: {
@@ -46,40 +53,40 @@ var baseWebpackConfig = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'eslint',
+                loader: 'eslint-loader',
                 enforce: "pre",
                 include: projectRoot,
                 exclude: /node_modules/
             }, {
                 test: /\.js$/,
-                loader: 'eslint',
+                loader: 'eslint-loader',
                 enforce: "pre",
                 include: projectRoot,
                 exclude: /node_modules/
             }, {
                 test: /\.vue$/,
-                loader: 'vue'
+                loader: 'vue-loader'
             }, {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: projectRoot,
                 exclude: /node_modules/
             }, {
                 test: /\.json$/,
-                loader: 'json'
+                loader: 'json-loader'
             }, {
                 test: /\.html$/,
-                loader: 'vue-html'
+                loader: 'vue-html-loader'
             }, {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url',
+                loader: 'url-loader',
                 query: {
                     limit: 10000,
                     name: utils.assetsPath('img/[name].[hash:7].[ext]')
                 }
             }, {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url',
+                loader: 'url-loader',
                 query: {
                     limit: 10000,
                     name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
@@ -88,8 +95,7 @@ var baseWebpackConfig = {
         ]
     },
     plugins: [
-        //如果你需要jquery
-        //new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),
+        new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),
     ]
 }
 baseWebpackConfig.entry = Object.assign(baseWebpackConfig.entry, entris)

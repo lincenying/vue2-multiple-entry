@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="class4">this is module 4</div>
         <ul>
-            <li v-for="item in list" v-text="item.title"></li>
+            <li v-for="item in list">
+                <router-link :to="`/view/${item.id}`" v-text="item.title"></router-link>
+            </li>
         </ul>
     </div>
 </template>
