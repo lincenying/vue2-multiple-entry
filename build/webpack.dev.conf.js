@@ -18,7 +18,10 @@ var config = merge(baseWebpackConfig, {
     plugins: [
         new webpack.DefinePlugin({'process.env': config.dev.env}),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["vendor"]
+        }),
         new webpack.LoaderOptionsPlugin({
             options: {
                 context: __dirname,

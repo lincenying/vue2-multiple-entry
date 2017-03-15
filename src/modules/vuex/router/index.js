@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import index from '../pages/index.vue'
-import view from '../pages/view.vue'
+const index = () => System.import('../pages/index.vue')
+const view = () => System.import('../pages/view.vue')
 
 Vue.use(VueRouter)
 
