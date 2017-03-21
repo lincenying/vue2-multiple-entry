@@ -45,5 +45,10 @@ export default {
         else ls.remove(path)
         next()
     },
+    metaInfo() {
+        return {
+            title: '这个是带vuex的模块 - ' + this.list.page,
+        }
+    }
 }
 </script>

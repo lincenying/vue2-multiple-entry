@@ -22,6 +22,9 @@ export default {
     async mounted() {
         const {success, data} = await api.get('topics', {page: 3})
         if (success) this.list = data
+    },
+    metaInfo: {
+        title: '这个是模块3',
     }
 }
 </script>

@@ -18,6 +18,9 @@ export default {
     async mounted() {
         const {success, data} = await api.get('topics', {page: 4})
         if (success) this.list = data
+    },
+    metaInfo: {
+        title: '这个是带路由的模块',
     }
 }
 </script>

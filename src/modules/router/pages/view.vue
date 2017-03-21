@@ -1,5 +1,5 @@
 <template>
-    <views :data="data" />
+    <views :data="item" />
 </template>
 <script lang="babel">
 import navComponent from '~components/nav-component.vue'
@@ -8,7 +8,7 @@ import api from '~api'
 export default {
     data() {
         return {
-            data: {}
+            item: {}
         }
     },
     components: {
@@ -18,7 +18,12 @@ export default {
     async mounted() {
         const id = this.$route.params.id
         const {success, data} = await api.get(`topic/${id}`)
-        if (success) this.data = data
+        if (success) this.item = data
+    },
+    metaInfo() {
+        return {
+            title: this.item && this.item.title || '',
+        }
     }
 }
 </script>

@@ -23,6 +23,11 @@ export default {
     async mounted() {
         const id = this.$route.params.id
         this.$store.dispatch('topic/getTopic', {id})
+    },
+    metaInfo() {
+        return {
+            title: this.item.data.title,
+        }
     }
 }
 </script>
