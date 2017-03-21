@@ -1,5 +1,6 @@
-var path = require("path");
+var path = require("path")
 var webpack = require('webpack')
+var config = require('../config')
 var merge = require('webpack-merge')
 var utils = require('./utils')
 var entris = require('./entris')
@@ -8,15 +9,27 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = merge(baseWebpackConfig, {
     module: {
-        loaders: utils.styleLoaders()
+        rules: utils.styleLoaders()
     },
     output: {
         publicPath: '/'
     },
     devtool: '#eval-source-map',
     plugins: [
+        new webpack.DefinePlugin({'process.env': config.dev.env}),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["vendor"]
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                context: __dirname,
+                vue: {
+                    loaders: utils.cssLoaders()
+                }
+            }
+        })
     ]
 })
 
@@ -25,7 +38,7 @@ Object.keys(entris).forEach(function(entry) {
         new HtmlWebpackPlugin({
             chunks: ['vendor', entry],
             filename: entry + '.html',
-            template: 'template/index.html',
+            template: 'src/template/index.html',
             inject: true
         })
     )

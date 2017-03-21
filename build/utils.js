@@ -1,17 +1,21 @@
-/* global require, exports, path */
+/* global require, exports */
 
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 exports.assetsPath = function(_path) {
-    return path.posix.join(config.build.assetsSubDirectory, _path)
+    var assetsSubDirectory = process.env.NODE_ENV === 'production'
+        ? config.build.assetsSubDirectory
+        : config.dev.assetsSubDirectory
+    return path.posix.join(assetsSubDirectory, _path)
 }
 
 exports.cssLoaders = function(options) {
     options = options || {}
-        // generate loader string to be used with extract text plugin
+    // generate loader string to be used with extract text plugin
     function generateLoaders(loaders) {
+        loaders = ['css', 'postcss'].concat(loaders)
         var sourceLoader = loaders.map(function(loader) {
             var extraParamChar
             if (/\?/.test(loader)) {
@@ -21,11 +25,13 @@ exports.cssLoaders = function(options) {
                 loader = loader + '-loader'
                 extraParamChar = '?'
             }
-            return loader + (options.sourceMap ? extraParamChar + 'sourceMap' : '')
+            return loader + (options.sourceMap
+                ? extraParamChar + 'sourceMap'
+                : '')
         }).join('!')
 
         if (options.extract) {
-            return ExtractTextPlugin.extract({fallbackLoader: 'vue-style-loader', loader: sourceLoader})
+            return ExtractTextPlugin.extract({fallback: 'vue-style-loader', use: sourceLoader})
         } else {
             return ['vue-style-loader', sourceLoader].join('!')
         }
@@ -33,13 +39,11 @@ exports.cssLoaders = function(options) {
 
     // http://vuejs.github.io/vue-loader/configurations/extract-css.html
     return {
-        css: generateLoaders(['css?-autoprefixer', 'postcss']),
-        postcss: generateLoaders(['css?-autoprefixer', 'postcss']),
-        less: generateLoaders(['css?-autoprefixer', 'postcss', 'less']),
-        sass: generateLoaders(['css?-autoprefixer', 'postcss', 'sass?indentedSyntax']),
-        scss: generateLoaders(['css?-autoprefixer', 'postcss', 'sass']),
-        stylus: generateLoaders(['css?-autoprefixer', 'postcss', 'stylus']),
-        styl: generateLoaders(['css?-autoprefixer', 'postcss', 'stylus'])
+        css: generateLoaders([]),
+        postcss: generateLoaders([]),
+        less: generateLoaders(['less']),
+        sass: generateLoaders(['sass?indentedSyntax']),
+        scss: generateLoaders(['sass'])
     }
 }
 

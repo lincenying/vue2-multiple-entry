@@ -1,3 +1,4 @@
+/* global require, module, process */
 var path = require("path")
 var config = require('../config')
 var utils = require('./utils')
@@ -12,22 +13,15 @@ config.build.productionSourceMap = false
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     module: {
-        loaders: utils.styleLoaders({
-            sourceMap: config.build.productionSourceMap,
-            extract: true
-        })
+        rules: utils.styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
     },
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
+    devtool: config.build.productionSourceMap
+        ? '#source-map'
+        : false,
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-    },
-    vue: {
-        loaders: utils.cssLoaders({
-            sourceMap: config.build.productionSourceMap,
-            extract: true
-        })
+        filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash:7].js')
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -36,34 +30,42 @@ baseWebpackConfig = merge(baseWebpackConfig, {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            names: ["common", "vendor"]
+            name: 'vendor',
+            minChunks: function(module, count) {
+                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0)
+            }
         }),
+        new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
+        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
         new webpack.LoaderOptionsPlugin({
-            minimize: true
+            minimize: true,
+            options: {
+                context: __dirname,
+                vue: {
+                    loaders: utils.cssLoaders({sourceMap: config.build.productionSourceMap, extract: true})
+                }
+            }
         })
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
-    baseWebpackConfig.plugins.push(
-        new HtmlWebpackPlugin({
-            chunks: ['vendor', 'common', entry],
-            filename: entry + '.html',
-            template: 'template/index.html',
-            inject: true,
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true
-            }
-        })
-    )
+    baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
+        chunks: [ 'manifest', 'vendor', entry ],
+        filename: entry + '.html',
+        template: 'src/template/index.html',
+        inject: true,
+        minify: {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true
+        }
+    }))
 })
 
 module.exports = baseWebpackConfig
