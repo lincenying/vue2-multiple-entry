@@ -2,14 +2,19 @@ var path = require("path")
 var webpack = require('webpack')
 var config = require('../config')
 var merge = require('webpack-merge')
-var utils = require('./utils')
 var entris = require('./entris')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = merge(baseWebpackConfig, {
     module: {
-        rules: utils.styleLoaders()
+        rules: [{
+            test: /\.css$/,
+            loader: 'style-loader!css-loader!postcss-loader'
+        }, {
+            test: /\.less$/,
+            loader: 'style-loader!css-loader!postcss-loader!less-loader'
+        }]
     },
     output: {
         publicPath: '/'
@@ -21,14 +26,6 @@ var config = merge(baseWebpackConfig, {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             names: ["vendor"]
-        }),
-        new webpack.LoaderOptionsPlugin({
-            options: {
-                context: __dirname,
-                vue: {
-                    loaders: utils.cssLoaders()
-                }
-            }
         })
     ]
 })

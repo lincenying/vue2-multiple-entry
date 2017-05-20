@@ -13,7 +13,13 @@ config.build.productionSourceMap = false
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     module: {
-        rules: utils.styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
+        rules: [{
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader'])
+        },  {
+            test: /\.less/,
+            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader'])
+        }]
     },
     devtool: config.build.productionSourceMap
         ? '#source-map'
@@ -42,15 +48,6 @@ baseWebpackConfig = merge(baseWebpackConfig, {
             }
         }),
         new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true,
-            options: {
-                context: __dirname,
-                vue: {
-                    loaders: utils.cssLoaders({sourceMap: config.build.productionSourceMap, extract: true})
-                }
-            }
-        })
     ]
 })
 
