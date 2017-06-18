@@ -2,9 +2,9 @@
     <div class="g-doc">
         <nav-component :current="4" />
         <nav-list></nav-list>
-        <transition name="fade" mode="out-in">
-            <router-view :key="key" class="router"></router-view>
-        </transition>
+        <!--<transition name="fade" mode="out-in">-->
+        <router-view :key="key" class="router"></router-view>
+        <!--</transition>-->
     </div>
 </template>
 <script lang="babel">
@@ -13,6 +13,7 @@ import navList from './components/nav-list.vue'
 
 import 'nprogress/nprogress.css'
 import 'toastr/build/toastr.min.css'
+import 'vueg/css/transition-min.css'
 
 export default {
     name: 'router-app',
@@ -27,27 +28,24 @@ export default {
     }
 }
 </script>
-<style media="screen">
-.fade-enter-active, .fade-leave-active {
-    transition: all 0.3s ease;
+<style lang="less">
+body {
+    padding: 0;
+    margin: 0;
 }
-.fade-enter {
-    opacity: 1;
-    transform: translate3d(0, 100px, 0);
-}
-.fade-leave-active {
-    opacity: 0;
-    transform: translate3d(100px, 0, 0);
-}
-.beian {
-    float: right;
-}
-.beian i {
-    width: 14px;
-    height: 14px;
-    background: url(http://ww4.sinaimg.cn/large/005uQRNCgw1f9xoio7mdej300k00k3y9.jpg);
-    background-size: cover;
-    display: inline-block;
-    vertical-align: top;
+.g-doc {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    & > ul {
+        height: 21px;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+    }
+    .router {
+        flex: 1 1 auto;
+        background: #fff;
+    }
 }
 </style>

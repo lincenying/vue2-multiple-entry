@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import Meta from 'vue-meta'
+import vueg from 'vueg'
 import store from './store'
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import App from './app.vue'
 
 Vue.use(Meta)
+Vue.use(vueg, router, {
+    forwardAnim: 'fadeInRight'
+})
 
 sync(store, router)
 
