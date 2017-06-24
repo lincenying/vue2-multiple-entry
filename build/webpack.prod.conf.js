@@ -37,7 +37,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: function(module, count) {
+            minChunks(module, count) {
                 return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0)
             }
         }),
@@ -48,6 +48,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
             }
         }),
         new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
+        new webpack.optimize.ModuleConcatenationPlugin(),
     ]
 })
 
@@ -61,6 +62,12 @@ Object.keys(entris).forEach(function(entry) {
             removeComments: true,
             collapseWhitespace: true,
             removeAttributeQuotes: true
+        },
+        chunksSortMode (chunk1, chunk2) {
+            var orders = ['manifest', 'vendor', entry];
+            var order1 = orders.indexOf(chunk1.names[0]);
+            var order2 = orders.indexOf(chunk2.names[0]);
+            return order1 - order2;
         }
     }))
 })

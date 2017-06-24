@@ -23,7 +23,7 @@
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.25.0",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^7.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
@@ -31,7 +31,7 @@
     "browserslist": "^2.1.5",
     "connect-history-api-fallback": "^1.2.0",
     "css-loader": "^0.28.4",
-    "eslint-config-lcy-vue": "^1.1.1",
+    "eslint-config-lcy-vue": "^2.0.1",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.2",
@@ -51,8 +51,8 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^12.2.1",
     "vue-template-compiler": "^2.3.4",
-    "webpack": "^2.6.1",
-    "webpack-dev-middleware": "^1.10.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-middleware": "^1.11.0",
     "webpack-hot-middleware": "^2.18.0",
     "webpack-merge": "^4.1.0"
   }
