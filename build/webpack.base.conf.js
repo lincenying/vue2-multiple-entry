@@ -43,6 +43,7 @@ var baseWebpackConfig = {
             '~api-config': path.resolve(__dirname, '../src/api/config'),
             '~components': path.resolve(__dirname, '../src/components'),
             '~pages': path.resolve(__dirname, '../src/pages'),
+            '~polyfill': path.resolve(__dirname, '../src/polyfill'),
             '~store': path.resolve(__dirname, '../src/store'),
             '~utils': path.resolve(__dirname, '../src/utils'),
         }

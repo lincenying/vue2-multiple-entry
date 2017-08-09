@@ -1,3 +1,4 @@
+import '~polyfill'
 import Vue from 'vue'
 import Meta from 'vue-meta'
 import vueg from 'vueg'
