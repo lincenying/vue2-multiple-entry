@@ -37,8 +37,9 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks(module, count) {
-                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0)
+            minChunks(module) {
+                const preg = /\.js$/
+                return module.resource && preg.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
@@ -64,10 +65,10 @@ Object.keys(entris).forEach(function(entry) {
             removeAttributeQuotes: true
         },
         chunksSortMode (chunk1, chunk2) {
-            var orders = ['manifest', 'vendor', entry];
-            var order1 = orders.indexOf(chunk1.names[0]);
-            var order2 = orders.indexOf(chunk2.names[0]);
-            return order1 - order2;
+            var orders = ['manifest', 'vendor', entry]
+            var order1 = orders.indexOf(chunk1.names[0])
+            var order2 = orders.indexOf(chunk2.names[0])
+            return order1 - order2
         }
     }))
 })
