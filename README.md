@@ -10,7 +10,7 @@
 
 vuex模块带有懒加载
 
-DEMO: http://old.mmxiaowu.com/vue2-multiple-entry/
+DEMO: http://old.mmxiaowu.com/vue2-multiple-entry/index
 
 ```
 
