@@ -56,7 +56,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
 Object.keys(entris).forEach(function(entry) {
     baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
         chunks: [ 'manifest', 'vendor', entry ],
-        filename: entry + '.html',
+        filename: entry + '/index.html',
         template: 'src/template/index.html',
         inject: true,
         minify: {
