@@ -17,7 +17,7 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 var baseWebpackConfig = {
     entry: {
-        vendor: ['vue']
+        vendors: ['vue']
     },
     output: {
         path: config.build.assetsRoot,
@@ -95,6 +95,21 @@ var baseWebpackConfig = {
                 }
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: 'initial',
+                    name: 'vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    enforce: true
+                },
+            }
+        },
+        runtimeChunk: {
+            name: 'vendors'
+        }
     },
     plugins: [
         new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),

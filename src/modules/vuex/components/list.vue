@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="item in list">
+            <li v-for="item in list" :key="item.id">
                 <router-link :to="`/view/${item.id}`" v-text="item.title"></router-link>
             </li>
             <li style="text-align:center;">

@@ -51,6 +51,10 @@ app.use(require('connect-history-api-fallback')({
     rewrites: [
       { from: /\/index$/, to: '/index/index.html'},
       { from: /\/module2$/, to: '/module2/index.html'},
+      { from: /\/module3$/, to: '/module3/index.html'},
+      { from: /\/router$/, to: '/router/index.html'},
+      { from: /\/vuex$/, to: '/vuex/index.html'},
+      { from: /\/view$/, to: '/view/index.html'},
     ]
 }))
 

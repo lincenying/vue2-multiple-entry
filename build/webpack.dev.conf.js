@@ -7,6 +7,7 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = merge(baseWebpackConfig, {
+    mode: 'development',
     module: {
         rules: [{
             test: /\.css$/,
@@ -24,16 +25,13 @@ var config = merge(baseWebpackConfig, {
         new webpack.DefinePlugin({'process.env': config.dev.env}),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor"]
-        })
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
     config.plugins.push(
         new HtmlWebpackPlugin({
-            chunks: ['vendor', entry],
+            chunks: ['vendors', entry],
             filename: entry + '/index.html',
             template: 'src/template/index.html',
             inject: true

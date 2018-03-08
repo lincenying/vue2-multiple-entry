@@ -8,10 +8,13 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
 
 config.build.productionSourceMap = false
 
 baseWebpackConfig = merge(baseWebpackConfig, {
+    mode: 'production',
     module: {
         rules: [{
             test: /\.css$/,
@@ -35,27 +38,18 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks(module) {
-                const preg = /\.js$/
-                return module.resource && preg.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
         new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        new SWPrecacheWebpackPlugin(config.swPrecache.build),
+        new SwRegisterWebpackPlugin({
+            prefix: '/',
+            filePath: path.resolve(__dirname, '../src/sw-register.js')
+        })
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
     baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
-        chunks: [ 'manifest', 'vendor', entry ],
+        chunks: [ 'vendors', entry ],
         filename: entry + '/index.html',
         template: 'src/template/index.html',
         inject: true,
@@ -63,12 +57,6 @@ Object.keys(entris).forEach(function(entry) {
             removeComments: true,
             collapseWhitespace: true,
             removeAttributeQuotes: true
-        },
-        chunksSortMode (chunk1, chunk2) {
-            var orders = ['manifest', 'vendor', entry]
-            var order1 = orders.indexOf(chunk1.names[0])
-            var order2 = orders.indexOf(chunk2.names[0])
-            return order1 - order2
         }
     }))
 })

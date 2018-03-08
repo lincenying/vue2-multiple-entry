@@ -2,7 +2,7 @@
     <div>
         <div class="class1">this is index</div>
         <ul>
-            <li v-for="item in list"><a :href="`view.html?id=${item.id}`" v-text="item.title" target="_blank"></a></li>
+            <li v-for="item in list" :key="item.id"><a :href="`view?id=${item.id}`" v-text="item.title" target="_blank"></a></li>
         </ul>
     </div>
 </template>
