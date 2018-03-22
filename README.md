@@ -12,19 +12,24 @@ vuex模块带有懒加载
 
 DEMO: http://old.mmxiaowu.com/vue2-multiple-entry/index
 
-```
+fork demo
 
-fork
-git clone
+```bash
+$ git clone
 
 // 安装依赖
-npm install  or  yarn
+$ npm install
+#or
+$ yarn
 
 // 生产模式
-npm run build
+$ npm run build
 
 // 开发模式
-npm run dev
+$ npm run dev
+
+// eslint 检测
+$ npm run lint
 ```
 
 # 目录结构

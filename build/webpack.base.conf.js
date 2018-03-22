@@ -77,9 +77,6 @@ var baseWebpackConfig = {
                 test: /\.json$/,
                 loader: 'json-loader'
             }, {
-                test: /\.html$/,
-                loader: 'vue-html-loader'
-            }, {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
                 query: {
@@ -95,21 +92,6 @@ var baseWebpackConfig = {
                 }
             }
         ]
-    },
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    chunks: 'initial',
-                    name: 'vendors',
-                    test: /[\\/]node_modules[\\/]/,
-                    enforce: true
-                },
-            }
-        },
-        runtimeChunk: {
-            name: 'vendors'
-        }
     },
     plugins: [
         new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),

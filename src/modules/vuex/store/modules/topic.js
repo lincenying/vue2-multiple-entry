@@ -8,7 +8,7 @@ const state = {
 }
 
 const actions = {
-    async ['getTopic']({commit, state, rootState: {route: { fullPath }}}, config) {
+    async ['getTopic']({ commit, state, rootState: { route: { fullPath } } }, config) {
         const path = fullPath
         if (state.item.data.id && path === state.item.path) {
             return
@@ -20,13 +20,14 @@ const actions = {
                 path
             })
         }
-    },
+    }
 }
 
 const mutations = {
-    ['receiveTopic'](state, {data, path}) {
+    ['receiveTopic'](state, { data, path }) {
         state.item = {
-            data, path
+            data,
+            path
         }
     }
 }
@@ -34,7 +35,7 @@ const mutations = {
 const getters = {
     ['getTopic'](state) {
         return state.item
-    },
+    }
 }
 
 export default {

@@ -1,36 +1,65 @@
 /* global require, module, process */
-var path = require("path")
-var config = require('../config')
-var utils = require('./utils')
-var entris = require('./entris')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
+
+let baseWebpackConfig = require('./webpack.base.conf')
+const config = require('../config')
+const utils = require('./utils')
+const entris = require('./entris')
 
 config.build.productionSourceMap = false
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     module: {
-        rules: [{
-            test: /\.css$/,
-            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader'])
-        },  {
-            test: /\.less/,
-            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader'])
-        }]
+        rules: [
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader'])
+            },
+            {
+                test: /\.less/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader'])
+            }
+        ]
     },
-    devtool: config.build.productionSourceMap
-        ? '#source-map'
-        : false,
+    devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
         chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js')
+    },
+    optimization: {
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    priority: -20,
+                    chunks: 'all'
+                }
+            }
+        },
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    compress: {
+                        warnings: false
+                    }
+                },
+                sourceMap: config.build.productionSourceMap,
+                parallel: true
+            })
+        ]
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -43,22 +72,27 @@ baseWebpackConfig = merge(baseWebpackConfig, {
         new SwRegisterWebpackPlugin({
             prefix: '/',
             filePath: path.resolve(__dirname, '../src/sw-register.js')
-        })
+        }),
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
-    baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
-        chunks: [ 'vendors', entry ],
-        filename: entry + '/index.html',
-        template: 'src/template/index.html',
-        inject: true,
-        minify: {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true
-        }
-    }))
+    const chunks = ['manifest', 'vendors', entry]
+    baseWebpackConfig.plugins.push(
+        new HtmlWebpackPlugin({
+            isProd: true,
+            chunks,
+            filename: entry + '/index.html',
+            template: 'src/template/index.html',
+            inject: true,
+            chunksSortMode(chunk1, chunk2) {
+                const orders = chunks
+                const order1 = orders.indexOf(chunk1.names[0])
+                const order2 = orders.indexOf(chunk2.names[0])
+                return order1 - order2
+            }
+        })
+    )
 })
 
 module.exports = baseWebpackConfig

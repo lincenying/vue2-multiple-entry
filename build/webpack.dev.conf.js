@@ -31,6 +31,7 @@ var config = merge(baseWebpackConfig, {
 Object.keys(entris).forEach(function(entry) {
     config.plugins.push(
         new HtmlWebpackPlugin({
+            isProd: false,
             chunks: ['vendors', entry],
             filename: entry + '/index.html',
             template: 'src/template/index.html',
