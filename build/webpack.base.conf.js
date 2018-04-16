@@ -1,42 +1,32 @@
 /* global require, module, __dirname */
 
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const { VueLoaderPlugin } = require('vue-loader')
 
-var config = require('../config')
-var utils = require('./utils')
-var entris = require('./entris')
+const config = require('../config')
+const utils = require('./utils')
+const entris = require('./entris')
 
-var projectRoot = path.resolve(__dirname, '../')
-var env = process.env.NODE_ENV
-// check env & config/index.js to decide weither to enable CSS Sourcemaps for the
-// various preprocessor loaders added to vue-loader at the end of this file
-var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
-var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
-var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
+const projectRoot = path.resolve(__dirname, '../')
+const isProd = process.env.NODE_ENV === 'production'
 
-var baseWebpackConfig = {
+const baseWebpackConfig = {
     entry: {
         vendors: ['vue']
     },
     output: {
         path: config.build.assetsRoot,
-        publicPath: process.env.NODE_ENV === 'production'
-            ? config.build.assetsPublicPath
-            : config.dev.assetsPublicPath,
+        publicPath: isProd ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
         filename: '[name].js',
-        chunkFilename: "[name].js"
+        chunkFilename: '[name].js'
     },
     externals: {
-        'jquery': 'jQuery'
+        jquery: 'jQuery'
     },
     resolve: {
-        extensions: [
-            '.js', '.vue'
-        ],
-        modules: [
-            path.join(__dirname, '../node_modules'),
-        ],
+        extensions: ['.js', '.vue'],
+        modules: [path.join(__dirname, '../node_modules')],
         alias: {
             '~src': path.resolve(__dirname, '../src'),
             '~api': path.resolve(__dirname, '../src/api/index'),
@@ -45,7 +35,7 @@ var baseWebpackConfig = {
             '~pages': path.resolve(__dirname, '../src/pages'),
             '~polyfill': path.resolve(__dirname, '../src/polyfill'),
             '~store': path.resolve(__dirname, '../src/store'),
-            '~utils': path.resolve(__dirname, '../src/utils'),
+            '~utils': path.resolve(__dirname, '../src/utils')
         }
     },
     resolveLoader: {
@@ -53,48 +43,58 @@ var baseWebpackConfig = {
     },
     module: {
         rules: [
+            // 取消编译前eslint验证, 可以直接使用 npm run lint
+            // {
+            //     test: /\.vue$/,
+            //     loader: 'eslint-loader',
+            //     enforce: 'pre',
+            //     include: projectRoot,
+            //     exclude: /node_modules/
+            // },
+            // {
+            //     test: /\.js$/,
+            //     loader: 'eslint-loader',
+            //     enforce: 'pre',
+            //     include: projectRoot,
+            //     exclude: /node_modules/
+            // },
             {
                 test: /\.vue$/,
-                loader: 'eslint-loader',
-                enforce: "pre",
-                include: projectRoot,
-                exclude: /node_modules/
-            }, {
-                test: /\.js$/,
-                loader: 'eslint-loader',
-                enforce: "pre",
-                include: projectRoot,
-                exclude: /node_modules/
-            }, {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            }, {
+                use: [
+                    {
+                        loader: 'vue-loader',
+                        options: {
+                            compilerOptions: {
+                                preserveWhitespace: false
+                            }
+                        }
+                    }
+                ]
+            },
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 include: projectRoot,
                 exclude: /node_modules/
-            }, {
+            },
+            {
                 test: /\.json$/,
                 loader: 'json-loader'
-            }, {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: utils.assetsPath('img/[name].[hash:7].[ext]')
-                }
-            }, {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-                }
+            },
+            {
+                test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: utils.assetsPath('img/[name].[hash:7].[ext]')
+                    }
+                ]
             }
         ]
     },
     plugins: [
-        new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery'}),
+        new VueLoaderPlugin(),
+        new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery' })
     ]
 }
 baseWebpackConfig.entry = Object.assign(baseWebpackConfig.entry, entris)

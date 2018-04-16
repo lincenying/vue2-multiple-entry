@@ -2,32 +2,27 @@
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-let baseWebpackConfig = require('./webpack.base.conf')
-const config = require('../config')
 const utils = require('./utils')
+const config = require('../config')
 const entris = require('./entris')
 
-config.build.productionSourceMap = false
+let baseWebpackConfig = require('./webpack.base.conf')
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     module: {
-        rules: [
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader'])
-            },
-            {
-                test: /\.less/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader'])
-            }
-        ]
+        rules: utils.styleLoaders({
+            sourceMap: config.build.productionSourceMap,
+            extract: true,
+            usePostCSS: true
+        })
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
@@ -58,7 +53,8 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 },
                 sourceMap: config.build.productionSourceMap,
                 parallel: true
-            })
+            }),
+            new OptimizeCSSAssetsPlugin({})
         ]
     },
     plugins: [
@@ -67,12 +63,17 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 NODE_ENV: '"production"'
             }
         }),
-        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: utils.assetsPath('css/[name].[contenthash:7].css'),
+            chunkFilename: utils.assetsPath('css/[name].[contenthash:7].css'),
+        }),
         new SWPrecacheWebpackPlugin(config.swPrecache.build),
         new SwRegisterWebpackPlugin({
             prefix: '/',
             filePath: path.resolve(__dirname, '../src/sw-register.js')
-        }),
+        })
     ]
 })
 

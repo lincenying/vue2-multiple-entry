@@ -32,6 +32,9 @@ $ npm run dev
 $ npm run lint
 ```
 
+访问: http://localhost:8080/index
+
+
 # 目录结构
 - /build/          = webpack配置文件目录
 - /dist/           = webpack编译后生成文件目录
