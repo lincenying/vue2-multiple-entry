@@ -8,7 +8,16 @@ const state = {
 }
 
 const actions = {
-    async ['getTopic']({ commit, state, rootState: { route: { fullPath } } }, config) {
+    async ['getTopic'](
+        {
+            commit,
+            state,
+            rootState: {
+                route: { fullPath }
+            }
+        },
+        config
+    ) {
         const path = fullPath
         if (state.item.data.id && path === state.item.path) {
             return

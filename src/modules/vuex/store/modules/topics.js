@@ -9,7 +9,16 @@ const state = {
 }
 
 const actions = {
-    async ['getTopics']({ commit, state, rootState: { route: { fullPath } } }, config) {
+    async ['getTopics'](
+        {
+            commit,
+            state,
+            rootState: {
+                route: { fullPath }
+            }
+        },
+        config
+    ) {
         const path = fullPath
         if (state.lists.data.length > 0 && path === state.lists.path && config.page === 1) {
             return
