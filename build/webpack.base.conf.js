@@ -78,10 +78,6 @@ const baseWebpackConfig = {
                 exclude: /node_modules/
             },
             {
-                test: /\.json$/,
-                loader: 'json-loader'
-            },
-            {
                 test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,
                 use: [
                     {

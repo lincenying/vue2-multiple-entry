@@ -1,7 +1,7 @@
 <template>
     <views :data="item.data" />
 </template>
-<script lang="babel">
+<script>
 import { mapGetters } from 'vuex'
 import navComponent from '~components/nav-component.vue'
 import views from '../components/view.vue'

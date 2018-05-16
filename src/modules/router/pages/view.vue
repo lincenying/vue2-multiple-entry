@@ -1,7 +1,7 @@
 <template>
     <views :data="item" />
 </template>
-<script lang="babel">
+<script>
 import navComponent from '~components/nav-component.vue'
 import views from '../components/view.vue'
 import api from '~api'
@@ -17,12 +17,12 @@ export default {
     },
     async mounted() {
         const id = this.$route.params.id
-        const {success, data} = await api.get(`topic/${id}`)
+        const { success, data } = await api.get(`topic/${id}`)
         if (success) this.item = data
     },
     metaInfo() {
         return {
-            title: this.item && this.item.title || '',
+            title: (this.item && this.item.title) || ''
         }
     }
 }

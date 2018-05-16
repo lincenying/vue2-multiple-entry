@@ -1,7 +1,7 @@
 <template>
     <modules @loadMore="loadMore" :loading="loading" :list="list.data" />
 </template>
-<script lang="babel">
+<script>
 import ls from 'store2'
 import { mapGetters } from 'vuex'
 import navComponent from '~components/nav-component.vue'
@@ -10,13 +10,13 @@ export default {
     name: 'vuex-index',
     data() {
         return {
-            loading: false,
+            loading: false
         }
     },
     computed: {
         ...mapGetters({
             list: 'topics/getTopics'
-        }),
+        })
     },
     components: {
         navComponent,
@@ -26,12 +26,12 @@ export default {
         async loadMore() {
             this.loading = true
             const page = this.list.page + 1
-            await this.$store.dispatch('topics/getTopics', {page})
+            await this.$store.dispatch('topics/getTopics', { page })
             this.loading = false
         }
     },
     async mounted() {
-        await this.$store.dispatch('topics/getTopics', {page: 1})
+        await this.$store.dispatch('topics/getTopics', { page: 1 })
         await this.$nextTick()
         const path = this.$route.path
         const scrollTop = ls.get(path) || 0
@@ -47,7 +47,7 @@ export default {
     },
     metaInfo() {
         return {
-            title: '这个是带vuex的模块 - ' + this.list.page,
+            title: '这个是带vuex的模块 - ' + this.list.page
         }
     }
 }

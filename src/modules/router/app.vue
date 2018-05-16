@@ -7,7 +7,7 @@
         <!--</transition>-->
     </div>
 </template>
-<script lang="babel">
+<script>
 import navComponent from '~components/nav-component.vue'
 import navList from './components/nav-list.vue'
 
@@ -20,11 +20,11 @@ export default {
     computed: {
         key() {
             return this.$route.path.replace(/\//g, '_')
-        },
+        }
     },
     components: {
         navComponent,
-        navList,
+        navList
     }
 }
 </script>

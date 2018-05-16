@@ -4,7 +4,7 @@
         <modules :list="list" />
     </div>
 </template>
-<script lang="babel">
+<script>
 import navComponent from '~components/nav-component.vue'
 import modules from '~components/module-3.vue'
 import api from '~api'
@@ -20,11 +20,11 @@ export default {
         modules
     },
     async mounted() {
-        const {success, data} = await api.get('topics', {page: 3})
+        const { success, data } = await api.get('topics', { page: 3 })
         if (success) this.list = data
     },
     metaInfo: {
-        title: '这个是模块3',
+        title: '这个是模块3'
     }
 }
 </script>
