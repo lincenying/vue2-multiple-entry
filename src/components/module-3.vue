@@ -1,18 +1,28 @@
 <template>
-    <div>
-        <div class="class3">this is module 3</div>
-        <ul>
-            <li v-for="item in list" :key="item.id"><a :href="`../view?id=${item.id}`" v-text="item.title" target="_blank"></a></li>
+    <div class="body">
+        <div class="header">这是模块 - 3</div>
+        <ul class="topics">
+            <li v-for="item in topics" :key="item.id">
+                <a :href="`../view?id=${item.id}`" v-text="item.title" target="_blank"></a>
+            </li>
         </ul>
+        <div class="pages">
+            <a v-if="page > 1" :href="`?page=${page - 1}`">上一页</a>
+            <a v-else href="javascript:;">上一页</a>
+            <a :href="`?page=${page + 1}`">下一页</a>
+        </div>
     </div>
 </template>
 <script>
 export default {
-    props: ['list']
+    props: {
+        topics: {
+            type: Array,
+            default: () => []
+        },
+        page: {
+            default: 1
+        }
+    }
 }
 </script>
-<style>
-.class3 {
-    color: green;
-}
-</style>

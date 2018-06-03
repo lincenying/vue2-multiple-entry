@@ -9,6 +9,8 @@ import App from './app.vue'
 
 Vue.use(Meta)
 Vue.use(vueg, router, {
+    // duration: '10',
+    shadow: false,
     forwardAnim: 'fadeInRight'
 })
 

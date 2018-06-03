@@ -1,11 +1,11 @@
 <template>
-    <modules @loadMore="loadMore" :loading="loading" :list="list.data" />
+    <modules @loadMore="loadMore" :loading="loading" :topics="topics.data" />
 </template>
 <script>
 import ls from 'store2'
 import { mapGetters } from 'vuex'
 import navComponent from '~components/nav-component.vue'
-import modules from '../components/list.vue'
+import modules from '../components/lists.vue'
 export default {
     name: 'vuex-index',
     data() {
@@ -15,7 +15,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            list: 'topics/getTopics'
+            topics: 'topics/getTopics'
         })
     },
     components: {
@@ -25,7 +25,7 @@ export default {
     methods: {
         async loadMore() {
             this.loading = true
-            const page = this.list.page + 1
+            const page = this.topics.page + 1
             await this.$store.dispatch('topics/getTopics', { page })
             this.loading = false
         }
@@ -47,7 +47,7 @@ export default {
     },
     metaInfo() {
         return {
-            title: '这个是带vuex的模块 - ' + this.list.page
+            title: '这个是带vuex的模块 - ' + this.topics.page
         }
     }
 }

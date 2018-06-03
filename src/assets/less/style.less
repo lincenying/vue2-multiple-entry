@@ -1,12 +1,96 @@
-.menuOpen {
+@import '_reset.less';
+
+#vueg-background {
+    padding-top: 80px;
+    box-sizing: border-box;
+    background: none !important;
+}
+.g-doc {
     display: flex;
-    width: 800px;
-    li {
-        flex: 1;
-        list-style: none;
-        &.current {
+    flex-direction: column;
+    min-height: 100vh;
+}
+.nav-wrap {
+    flex: 0 0 60px;
+    margin-bottom: 20px;
+    background: #54d9e0;
+    .nav-block {
+        display: flex;
+        align-items: center;
+        width: 1200px;
+        height: 60px;
+        margin: 0 auto;
+        li {
+            flex: 0 0 auto;
+            list-style: none;
+            width: 120px;
+            text-align: center;
             a {
-                color: red;
+                font-size: 16px;
+                color: #fff;
+            }
+            &.current {
+                a {
+                    color: red;
+                }
+            }
+            &.logo {
+                width: 109px;
+                margin-right: 30px;
+                img {
+                    width: 109px;
+                    height: 31px;
+                }
+            }
+        }
+    }
+}
+.body {
+    flex: 1 1 auto;
+    width: 1200px;
+    margin: 0 auto 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #eee;
+    .header {
+        position: relative;
+        padding-bottom: 15px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 800;
+        border-bottom: 1px solid #eee;
+        a {
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+        }
+    }
+    .topics {
+        margin-top: 20px;
+        li + li {
+            margin-top: 10px;
+        }
+    }
+    .content {
+        margin-top: 20px;
+        img {
+            max-width: 100%;
+        }
+    }
+    .pages {
+        margin-top: 20px;
+        padding-top: 20px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        a {
+            display: inline-block;
+            & + a {
+                margin-left: 20px;
             }
         }
     }

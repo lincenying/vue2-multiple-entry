@@ -22,6 +22,12 @@ export default {
         const id = new URLSearchParams(window.location.search).get('id')
         const { success, data } = await api.get(`topic/${id}`)
         if (success) this.data = data
+    },
+    metaInfo() {
+        const title = this.data.title ? this.data.title : ''
+        return {
+            title
+        }
     }
 }
 </script>

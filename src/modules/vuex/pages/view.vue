@@ -8,13 +8,12 @@ import views from '../components/view.vue'
 export default {
     name: 'vuex-view',
     data() {
-        return {
-        }
+        return {}
     },
     computed: {
         ...mapGetters({
             item: 'topic/getTopic'
-        }),
+        })
     },
     components: {
         navComponent,
@@ -22,11 +21,11 @@ export default {
     },
     async mounted() {
         const id = this.$route.params.id
-        this.$store.dispatch('topic/getTopic', {id})
+        this.$store.dispatch('topic/getTopic', { id })
     },
     metaInfo() {
         return {
-            title: this.item.data.title,
+            title: this.item.data.title
         }
     }
 }

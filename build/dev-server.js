@@ -51,6 +51,7 @@ Object.keys(proxyTable).forEach(function(context) {
 app.use(
     require('connect-history-api-fallback')({
         rewrites: [
+            { from: /\//, to: '/index/index.html' },
             { from: /\/index$/, to: '/index/index.html' },
             { from: /\/module2$/, to: '/module2/index.html' },
             { from: /\/module3$/, to: '/module3/index.html' },
