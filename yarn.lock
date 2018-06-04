@@ -441,12 +441,12 @@ autoprefixer@^6.3.1:
     postcss "^5.2.16"
     postcss-value-parser "^3.2.3"
 
-autoprefixer@^8.5.2:
-  version "8.5.2"
-  resolved "http://registry.npm.taobao.org/autoprefixer/download/autoprefixer-8.5.2.tgz#52d86a5ea51a6191024d843f88f2748ce3ab39e5"
+autoprefixer@^8.6.0:
+  version "8.6.0"
+  resolved "http://registry.npm.taobao.org/autoprefixer/download/autoprefixer-8.6.0.tgz#6da6b0791e15cb0ebf33c3f299414afd340672c0"
   dependencies:
     browserslist "^3.2.8"
-    caniuse-lite "^1.0.30000846"
+    caniuse-lite "^1.0.30000847"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
     postcss "^6.0.22"
@@ -1290,9 +1290,13 @@ caniuse-lite@^1.0.30000835:
   version "1.0.30000836"
   resolved "http://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30000836.tgz#c08f405b884d36dc44fa4c9a85c2c06cdab1dbb5"
 
-caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000846:
+caniuse-lite@^1.0.30000844:
   version "1.0.30000846"
   resolved "http://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30000846.tgz#2092911eecad71a89dae1faa62bcc202fde7f959"
+
+caniuse-lite@^1.0.30000847:
+  version "1.0.30000847"
+  resolved "http://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30000847.tgz#be77f439be29bbc57ae08004b1e470b653b1ec1d"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -4668,9 +4672,9 @@ prettier@^1.11.1, prettier@^1.12.1:
   version "1.12.1"
   resolved "http://registry.npm.taobao.org/prettier/download/prettier-1.12.1.tgz#c1ad20e803e7749faf905a409d2367e06bbe7325"
 
-prettier@^1.13.3:
-  version "1.13.3"
-  resolved "http://registry.npm.taobao.org/prettier/download/prettier-1.13.3.tgz#e74c09a7df6519d472ca6febaa37cf7addb48a20"
+prettier@^1.13.4:
+  version "1.13.4"
+  resolved "http://registry.npm.taobao.org/prettier/download/prettier-1.13.4.tgz#31bbae6990f13b1093187c731766a14036fa72e6"
 
 pretty-bytes@^4.0.2:
   version "4.0.2"
@@ -5976,9 +5980,9 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.0"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
 
-vue-loader@^15.2.2:
-  version "15.2.2"
-  resolved "http://registry.npm.taobao.org/vue-loader/download/vue-loader-15.2.2.tgz#d845fef2eca64e91042e66315119536e17f1538d"
+vue-loader@^15.2.4:
+  version "15.2.4"
+  resolved "http://registry.npm.taobao.org/vue-loader/download/vue-loader-15.2.4.tgz#a7b923123d3cf87230a8ff54a1c16d31a6c5dbb4"
   dependencies:
     "@vue/component-compiler-utils" "^1.2.1"
     hash-sum "^1.0.2"
