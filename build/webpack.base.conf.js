@@ -20,7 +20,7 @@ const jsLoader = [
         }
     }
 ]
-if (env !== 'development') {
+if (isProd) {
     jsLoader.push({
         loader: 'thread-loader'
     })
