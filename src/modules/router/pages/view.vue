@@ -6,14 +6,14 @@ import navComponent from '~components/nav-component.vue'
 import views from '../components/view.vue'
 import api from '~api'
 export default {
+    components: {
+        navComponent,
+        views
+    },
     data() {
         return {
             item: {}
         }
-    },
-    components: {
-        navComponent,
-        views
     },
     async mounted() {
         const id = this.$route.params.id

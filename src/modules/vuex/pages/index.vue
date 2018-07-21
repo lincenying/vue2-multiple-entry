@@ -8,6 +8,10 @@ import navComponent from '~components/nav-component.vue'
 import modules from '../components/lists.vue'
 export default {
     name: 'vuex-index',
+    components: {
+        navComponent,
+        modules
+    },
     data() {
         return {
             loading: false
@@ -18,9 +22,13 @@ export default {
             topics: 'topics/getTopics'
         })
     },
-    components: {
-        navComponent,
-        modules
+    async mounted() {
+        await this.$store.dispatch('topics/getTopics', { page: 1 })
+        await this.$nextTick()
+        const path = this.$route.path
+        const scrollTop = ls.get(path) || 0
+        ls.remove(path)
+        window.scrollTo(0, scrollTop)
     },
     methods: {
         async loadMore() {
@@ -29,14 +37,6 @@ export default {
             await this.$store.dispatch('topics/getTopics', { page })
             this.loading = false
         }
-    },
-    async mounted() {
-        await this.$store.dispatch('topics/getTopics', { page: 1 })
-        await this.$nextTick()
-        const path = this.$route.path
-        const scrollTop = ls.get(path) || 0
-        ls.remove(path)
-        window.scrollTo(0, scrollTop)
     },
     beforeRouteLeave(to, from, next) {
         const scrollTop = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)

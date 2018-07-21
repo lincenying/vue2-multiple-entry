@@ -9,14 +9,14 @@ import navComponent from '~components/nav-component.vue'
 import views from '~components/module-view.vue'
 import api from '~api'
 export default {
+    components: {
+        navComponent,
+        views
+    },
     data() {
         return {
             data: {}
         }
-    },
-    components: {
-        navComponent,
-        views
     },
     async mounted() {
         const id = new URLSearchParams(window.location.search).get('id')

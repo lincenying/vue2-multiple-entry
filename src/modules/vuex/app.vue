@@ -13,13 +13,13 @@ import 'vueg/css/transition-min.css'
 
 export default {
     name: 'vuex-app',
+    components: {
+        navComponent
+    },
     computed: {
         key() {
             return this.$route.path.replace(/\//g, '_')
         }
-    },
-    components: {
-        navComponent
     }
 }
 </script>

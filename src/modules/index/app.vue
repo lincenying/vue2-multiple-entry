@@ -10,15 +10,15 @@ import modules from '~components/module-1.vue'
 import api from '~api'
 export default {
     name: 'index-app',
+    components: {
+        navComponent,
+        modules
+    },
     data() {
         return {
             page: Number(new URLSearchParams(window.location.search).get('page')) || 1,
             topics: []
         }
-    },
-    components: {
-        navComponent,
-        modules
     },
     async mounted() {
         const { success, data } = await api.get('topics', { page: this.page })
