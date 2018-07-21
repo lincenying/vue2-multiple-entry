@@ -11,6 +11,24 @@ const entris = require('./entris')
 const projectRoot = path.resolve(__dirname, '../')
 const isProd = process.env.NODE_ENV === 'production'
 
+const jsLoader = [
+    {
+        loader: 'cache-loader',
+        options: {
+            cacheDirectory: path.join(__dirname, '../node_modules/.cache/babel-loader'),
+            cacheIdentifier: process.env.NODE_ENV + '_babel'
+        }
+    }
+]
+if (env !== 'development') {
+    jsLoader.push({
+        loader: 'thread-loader'
+    })
+}
+jsLoader.push({
+    loader: 'babel-loader'
+})
+
 const baseWebpackConfig = {
     entry: {
         vendors: ['vue']
@@ -62,20 +80,29 @@ const baseWebpackConfig = {
                 test: /\.vue$/,
                 use: [
                     {
+                        loader: 'cache-loader',
+                        options: {
+                            cacheDirectory: path.join(__dirname, '../node_modules/.cache/vue-loader'),
+                            cacheIdentifier: process.env.NODE_ENV + '_vue'
+                        }
+                    },
+                    {
                         loader: 'vue-loader',
                         options: {
                             compilerOptions: {
                                 preserveWhitespace: true
-                            }
+                            },
+                            cacheDirectory: path.join(__dirname, '../node_modules/.cache/vue-loader'),
+                            cacheIdentifier: process.env.NODE_ENV + '_vue'
                         }
                     }
                 ]
             },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
+                test: /\.jsx?$/,
                 include: projectRoot,
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                use: jsLoader
             },
             {
                 test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,

@@ -5,7 +5,7 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
-const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
+// const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
@@ -19,7 +19,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     module: {
         rules: utils.styleLoaders({
-            sourceMap: config.build.productionSourceMap,
+            sourceMap: false,
             extract: true,
             usePostCSS: true
         })
@@ -51,6 +51,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                         warnings: false
                     }
                 },
+                cache: true,
                 sourceMap: config.build.productionSourceMap,
                 parallel: true
             }),
@@ -58,7 +59,7 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 cssProcessorOptions: {
                     discardComments: { removeAll: true },
                     // 避免 cssnano 重新计算 z-index
-                    safe: true
+                    // safe: true
                 }
             })
         ]
@@ -76,10 +77,10 @@ baseWebpackConfig = merge(baseWebpackConfig, {
             chunkFilename: utils.assetsPath('css/[name].[contenthash:7].css'),
         }),
         new SWPrecacheWebpackPlugin(config.swPrecache.build),
-        new SwRegisterWebpackPlugin({
-            prefix: '/',
-            filePath: path.resolve(__dirname, '../src/sw-register.js')
-        })
+        // new SwRegisterWebpackPlugin({
+        //     prefix: '/',
+        //     filePath: path.resolve(__dirname, '../src/sw-register.js')
+        // })
     ]
 })
 

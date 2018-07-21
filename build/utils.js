@@ -7,13 +7,12 @@
 
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const isDev = process.env.NODE_ENV === 'development'
 
 const config = require('../config')
-const isProd = process.env.NODE_ENV === 'production'
 
 exports.assetsPath = function(newPath) {
-    const assetsSubDirectory =
-        process.env.NODE_ENV === 'production' ? config.build.assetsSubDirectory : config.dev.assetsSubDirectory
+    const assetsSubDirectory = isDev ? config.dev.assetsSubDirectory : config.build.assetsSubDirectory
     return path.posix.join(assetsSubDirectory, newPath)
 }
 
@@ -23,7 +22,7 @@ exports.cssLoaders = function(options) {
     const cssLoader = {
         loader: 'css-loader',
         options: {
-            minimize: process.env.NODE_ENV === 'production',
+            minimize: !isDev,
             sourceMap: options.sourceMap
         }
     }
@@ -45,20 +44,29 @@ exports.cssLoaders = function(options) {
                 })
             })
         }
-
         if (options.extract) {
             return [
                 {
+                    resourceQuery: /\?vue/,
                     use: [MiniCssExtractPlugin.loader, ...loaders]
                 },
                 {
-                    use: ['vue-style-loader', ...loaders]
+                    use: [MiniCssExtractPlugin.loader, ...loaders]
                 }
             ]
         }
         return [
             {
-                use: ['vue-style-loader', ...loaders]
+                use: [
+                    {
+                        loader: 'vue-style-loader',
+                        options: {
+                            sourceMap: false,
+                            shadowMode: false
+                        }
+                    },
+                    ...loaders
+                ]
             }
         ]
     }
