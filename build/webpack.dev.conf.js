@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 const baseWebpackConfig = require('./webpack.base.conf')
 const utils = require('./utils')
@@ -24,7 +25,8 @@ let webpackConfig = merge(baseWebpackConfig, {
     plugins: [
         new webpack.DefinePlugin({ 'process.env': config.dev.env }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin(),
+        new OpenBrowserPlugin()
     ]
 })
 
