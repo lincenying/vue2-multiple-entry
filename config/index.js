@@ -1,5 +1,5 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
-var path = require('path')
+const path = require('path')
 const swPrecacheConfig = require('./sw-precache')
 
 module.exports = {
