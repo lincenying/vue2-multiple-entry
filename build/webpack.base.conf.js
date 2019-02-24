@@ -100,7 +100,7 @@ const baseWebpackConfig = {
             },
             {
                 test: /\.jsx?$/,
-                include: projectRoot,
+                include: [projectRoot, path.join(__dirname, '../node_modules/vueg')],
                 exclude: /node_modules/,
                 use: jsLoader
             },

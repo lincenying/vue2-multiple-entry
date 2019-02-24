@@ -15,6 +15,11 @@ const port = process.env.PORT || config.dev.port
 const proxyTable = config.dev.proxyTable
 
 const app = express()
+
+// serve pure static assets
+const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+app.use(staticPath, express.static('./static'))
+
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -52,12 +57,12 @@ app.use(
     require('connect-history-api-fallback')({
         rewrites: [
             { from: /\/$/, to: '/index/index.html' },
-            { from: /^\/index/, to: '/index/index.html' },
-            { from: /^\/module2/, to: '/module2/index.html' },
-            { from: /^\/module3/, to: '/module3/index.html' },
-            { from: /^\/router/, to: '/router/index.html' },
-            { from: /^\/vuex/, to: '/vuex/index.html' },
-            { from: /^\/view/, to: '/view/index.html' }
+            { from: /^\/index$/, to: '/index/index.html' },
+            { from: /^\/module2$/, to: '/module2/index.html' },
+            { from: /^\/module3$/, to: '/module3/index.html' },
+            { from: /^\/router$/, to: '/router/index.html' },
+            { from: /^\/vuex$/, to: '/vuex/index.html' },
+            { from: /^\/view$/, to: '/view/index.html' }
         ]
     })
 )
@@ -68,10 +73,6 @@ app.use(devMiddleware)
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware)
-
-// serve pure static assets
-const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./static'))
 
 module.exports = app.listen(port, function(err) {
     if (err) {

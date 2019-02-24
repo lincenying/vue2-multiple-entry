@@ -16,6 +16,13 @@ let baseWebpackConfig = require('./webpack.base.conf')
 
 baseWebpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
+    performance: {
+        maxAssetSize: 500000,
+        maxEntrypointSize: 1000000,
+        assetFilter(assetFilename) {
+            return assetFilename.endsWith('.js')
+        }
+    },
     module: {
         rules: utils.styleLoaders({
             sourceMap: false,
