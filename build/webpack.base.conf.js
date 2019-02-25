@@ -36,8 +36,8 @@ const baseWebpackConfig = {
     output: {
         path: config.build.assetsRoot,
         publicPath: isProd ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
-        filename: '[name].js',
-        chunkFilename: '[name].js'
+        filename: 'module-[name].js',
+        chunkFilename: 'chunk-[name].js'
     },
     externals: {
         jquery: 'jQuery'
