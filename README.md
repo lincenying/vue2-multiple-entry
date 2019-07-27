@@ -18,13 +18,13 @@ fork
 git clone
 
 // 安装依赖
-npm install  or  yarn
+yarn
 
 // 生产模式
-npm run build
+yarn build
 
 // 开发模式
-npm run dev
+yarn dev
 ```
 
 # 目录结构
