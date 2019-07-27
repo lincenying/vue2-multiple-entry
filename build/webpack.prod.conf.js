@@ -1,33 +1,74 @@
 /* global require, module, process */
-var path = require("path")
-var config = require('../config')
-var utils = require('./utils')
-var entris = require('./entris')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-config.build.productionSourceMap = false
+const utils = require('./utils')
+const config = require('../config')
+const entris = require('./entris')
+
+let baseWebpackConfig = require('./webpack.base.conf')
 
 baseWebpackConfig = merge(baseWebpackConfig, {
-    module: {
-        rules: [{
-            test: /\.css$/,
-            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader'])
-        },  {
-            test: /\.less/,
-            loader: ExtractTextPlugin.extract(['css-loader', 'postcss-loader', 'less-loader'])
-        }]
+    mode: 'production',
+    performance: {
+        maxAssetSize: 500000,
+        maxEntrypointSize: 1000000,
+        assetFilter(assetFilename) {
+            return assetFilename.endsWith('.js')
+        }
     },
-    devtool: config.build.productionSourceMap
-        ? '#source-map'
-        : false,
+    module: {
+        rules: utils.styleLoaders({
+            sourceMap: false,
+            extract: true,
+            usePostCSS: true
+        })
+    },
+    devtool: config.build.productionSourceMap ? '#source-map' : false,
     output: {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
         chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js')
+    },
+    optimization: {
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    priority: -20,
+                    chunks: 'all'
+                }
+            }
+        },
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    compress: {
+                        warnings: false
+                    }
+                },
+                cache: true,
+                sourceMap: config.build.productionSourceMap,
+                parallel: true
+            }),
+            new OptimizeCSSAssetsPlugin({
+                cssProcessorOptions: {
+                    discardComments: { removeAll: true },
+                    // 避免 cssnano 重新计算 z-index
+                    // safe: true
+                }
+            })
+        ]
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -35,42 +76,37 @@ baseWebpackConfig = merge(baseWebpackConfig, {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks(module) {
-                const preg = /\.js$/
-                return module.resource && preg.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-            }
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: utils.assetsPath('css/[name].[contenthash:7].css'),
+            chunkFilename: utils.assetsPath('css/[name].[contenthash:7].css'),
         }),
-        new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
-        new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash:7].css')),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        new SWPrecacheWebpackPlugin(config.swPrecache.build),
+        // new SwRegisterWebpackPlugin({
+        //     prefix: '/',
+        //     filePath: path.resolve(__dirname, '../src/sw-register.js')
+        // })
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
-    baseWebpackConfig.plugins.push(new HtmlWebpackPlugin({
-        chunks: [ 'manifest', 'vendor', entry ],
-        filename: entry + '/index.html',
-        template: 'src/template/index.html',
-        inject: true,
-        minify: {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true
-        },
-        chunksSortMode (chunk1, chunk2) {
-            var orders = ['manifest', 'vendor', entry]
-            var order1 = orders.indexOf(chunk1.names[0])
-            var order2 = orders.indexOf(chunk2.names[0])
-            return order1 - order2
-        }
-    }))
+    const chunks = ['manifest', 'vendors', entry]
+    baseWebpackConfig.plugins.push(
+        new HtmlWebpackPlugin({
+            isProd: true,
+            chunks,
+            filename: entry + '/index.html',
+            template: 'src/template/index.html',
+            inject: true,
+            chunksSortMode(chunk1, chunk2) {
+                const orders = chunks
+                const order1 = orders.indexOf(chunk1.names[0])
+                const order2 = orders.indexOf(chunk2.names[0])
+                return order1 - order2
+            }
+        })
+    )
 })
 
 module.exports = baseWebpackConfig

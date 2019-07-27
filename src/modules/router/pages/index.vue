@@ -1,26 +1,35 @@
 <template>
-    <modules :list="list" />
+    <modules :topics="topics" @get-data="getData" :page="page" />
 </template>
-<script lang="babel">
+<script>
 import navComponent from '~components/nav-component.vue'
-import modules from '../components/list.vue'
+import modules from '../components/lists.vue'
 import api from '~api'
 export default {
-    data() {
-        return {
-            list: []
-        }
-    },
     components: {
         navComponent,
         modules
     },
+    data() {
+        return {
+            topics: [],
+            page: 1
+        }
+    },
     async mounted() {
-        const {success, data} = await api.get('topics', {page: 4})
-        if (success) this.list = data
+        this.getData()
+    },
+    methods: {
+        async getData(page = 1) {
+            const { success, data } = await api.get('topics', { page })
+            if (success) {
+                this.page = page
+                this.topics = this.topics.concat(data)
+            }
+        }
     },
     metaInfo: {
-        title: '这个是带路由的模块',
+        title: '这个是带路由的模块'
     }
 }
 </script>

@@ -52,5 +52,5 @@ export const timeYmd = timestamp => {
     var year = time.getFullYear()
     var month = time.getMonth() + 1
     var date = time.getDate()
-    return year + "-" + (month < 10 ? '0' + month : month) + "-" + (date < 10 ? '0' + date : date)
+    return year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date)
 }

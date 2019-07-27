@@ -1,3 +1,6 @@
 {
-    "extends": "lcy-vue"
+    "extends": ["lcy-vue"],
+    "rules": {
+        "no-irregular-whitespace": 0
+    }
 }

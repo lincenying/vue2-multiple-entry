@@ -12,20 +12,28 @@ vuex模块带有懒加载
 
 DEMO: http://old.mmxiaowu.com/vue2-multiple-entry/index
 
-```
+fork demo
 
-fork
-git clone
+```bash
+$ git clone
 
 // 安装依赖
-yarn
+$ npm install
+#or
+$ yarn
 
 // 生产模式
-yarn build
+$ npm run build
 
 // 开发模式
-yarn dev
+$ npm run dev
+
+// eslint 检测
+$ npm run lint
 ```
+
+访问: http://localhost:8080/index
+
 
 # 目录结构
 - /build/          = webpack配置文件目录

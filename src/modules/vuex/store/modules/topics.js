@@ -9,7 +9,16 @@ const state = {
 }
 
 const actions = {
-    async ['getTopics']({commit, state, rootState: {route: { fullPath }}}, config) {
+    async ['getTopics'](
+        {
+            commit,
+            state,
+            rootState: {
+                route: { fullPath }
+            }
+        },
+        config
+    ) {
         const path = fullPath
         if (state.lists.data.length > 0 && path === state.lists.path && config.page === 1) {
             return
@@ -22,11 +31,11 @@ const actions = {
                 path
             })
         }
-    },
+    }
 }
 
 const mutations = {
-    ['receiveTopics'](state, {data, page, path}) {
+    ['receiveTopics'](state, { data, page, path }) {
         let list
         if (page === 1) {
             list = [].concat(data)
@@ -34,7 +43,9 @@ const mutations = {
             list = state.lists.data.concat(data)
         }
         state.lists = {
-            data: list, page, path
+            data: list,
+            page,
+            path
         }
     }
 }
@@ -42,7 +53,7 @@ const mutations = {
 const getters = {
     ['getTopics'](state) {
         return state.lists
-    },
+    }
 }
 
 export default {

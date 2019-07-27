@@ -1,42 +1,42 @@
 <template>
-    <modules @loadMore="loadMore" :loading="loading" :list="list.data" />
+    <modules @loadMore="loadMore" :loading="loading" :topics="topics.data" />
 </template>
-<script lang="babel">
+<script>
 import ls from 'store2'
 import { mapGetters } from 'vuex'
 import navComponent from '~components/nav-component.vue'
-import modules from '../components/list.vue'
+import modules from '../components/lists.vue'
 export default {
     name: 'vuex-index',
-    data() {
-        return {
-            loading: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            list: 'topics/getTopics'
-        }),
-    },
     components: {
         navComponent,
         modules
     },
-    methods: {
-        async loadMore() {
-            this.loading = true
-            const page = this.list.page + 1
-            await this.$store.dispatch('topics/getTopics', {page})
-            this.loading = false
+    data() {
+        return {
+            loading: false
         }
     },
+    computed: {
+        ...mapGetters({
+            topics: 'topics/getTopics'
+        })
+    },
     async mounted() {
-        await this.$store.dispatch('topics/getTopics', {page: 1})
+        await this.$store.dispatch('topics/getTopics', { page: 1 })
         await this.$nextTick()
         const path = this.$route.path
         const scrollTop = ls.get(path) || 0
         ls.remove(path)
         window.scrollTo(0, scrollTop)
+    },
+    methods: {
+        async loadMore() {
+            this.loading = true
+            const page = this.topics.page + 1
+            await this.$store.dispatch('topics/getTopics', { page })
+            this.loading = false
+        }
     },
     beforeRouteLeave(to, from, next) {
         const scrollTop = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
@@ -47,7 +47,7 @@ export default {
     },
     metaInfo() {
         return {
-            title: '这个是带vuex的模块 - ' + this.list.page,
+            title: '这个是带vuex的模块 - ' + this.topics.page
         }
     }
 }

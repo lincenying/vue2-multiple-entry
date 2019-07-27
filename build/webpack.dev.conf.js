@@ -1,39 +1,40 @@
-var path = require("path")
-var webpack = require('webpack')
-var config = require('../config')
-var merge = require('webpack-merge')
-var entris = require('./entris')
-var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
-var config = merge(baseWebpackConfig, {
+const baseWebpackConfig = require('./webpack.base.conf')
+const utils = require('./utils')
+const config = require('../config')
+const entris = require('./entris')
+
+let webpackConfig = merge(baseWebpackConfig, {
+    mode: 'development',
     module: {
-        rules: [{
-            test: /\.css$/,
-            loader: 'style-loader!css-loader!postcss-loader'
-        }, {
-            test: /\.less$/,
-            loader: 'style-loader!css-loader!postcss-loader!less-loader'
-        }]
+        rules: utils.styleLoaders({
+            sourceMap: config.build.productionSourceMap,
+            extract: false,
+            usePostCSS: false
+        })
     },
     output: {
         publicPath: '/'
     },
     devtool: '#eval-source-map',
     plugins: [
-        new webpack.DefinePlugin({'process.env': config.dev.env}),
+        new webpack.DefinePlugin({ 'process.env': config.dev.env }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ["vendor"]
-        })
+        new OpenBrowserPlugin()
     ]
 })
 
 Object.keys(entris).forEach(function(entry) {
-    config.plugins.push(
+    webpackConfig.plugins.push(
         new HtmlWebpackPlugin({
-            chunks: ['vendor', entry],
+            isProd: false,
+            chunks: ['vendors', entry],
             filename: entry + '/index.html',
             template: 'src/template/index.html',
             inject: true
@@ -41,8 +42,8 @@ Object.keys(entris).forEach(function(entry) {
     )
 })
 
-Object.keys(config.entry).forEach(function(name) {
-    config.entry[name] = ['./build/dev-client'].concat(config.entry[name])
+Object.keys(webpackConfig.entry).forEach(function(name) {
+    webpackConfig.entry[name] = ['./build/dev-client'].concat(webpackConfig.entry[name])
 })
 
-module.exports = config
+module.exports = webpackConfig

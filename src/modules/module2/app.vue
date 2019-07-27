@@ -1,30 +1,31 @@
 <template>
     <div class="g-doc">
         <nav-component :current="2" />
-        <modules :list="list" />
+        <modules :topics="topics" :page="page" />
     </div>
 </template>
-<script lang="babel">
+<script>
 import navComponent from '~components/nav-component.vue'
 import modules from '~components/module-2.vue'
 import api from '~api'
 export default {
-    name: 'module-2-app',
-    data() {
-        return {
-            list: []
-        }
-    },
+    name: 'index-app',
     components: {
         navComponent,
         modules
     },
+    data() {
+        return {
+            page: Number(new URLSearchParams(window.location.search).get('page')) || 1,
+            topics: []
+        }
+    },
     async mounted() {
-        const {success, data} = await api.get('topics', {page: 2})
-        if (success) this.list = data
+        const { success, data } = await api.get('topics', { page: this.page })
+        if (success) this.topics = data
     },
     metaInfo: {
-        title: '这个是模块2',
+        title: '模块2'
     }
 }
 </script>
