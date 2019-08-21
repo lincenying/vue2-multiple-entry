@@ -1,5 +1,5 @@
 build/*.js
 config/*.js
-static/**/*.js
+public/static/**/*.js
 dist/**/*.js
 dist/**/*.css

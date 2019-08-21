@@ -2,12 +2,10 @@
     <modules :topics="topics" @get-data="getData" :page="page" />
 </template>
 <script>
-import navComponent from '~components/nav-component.vue'
 import modules from '../components/lists.vue'
-import api from '~api'
+import api from '@/api'
 export default {
     components: {
-        navComponent,
         modules
     },
     data() {

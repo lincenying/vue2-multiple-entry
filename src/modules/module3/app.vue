@@ -5,9 +5,9 @@
     </div>
 </template>
 <script>
-import navComponent from '~components/nav-component.vue'
-import modules from '~components/module-3.vue'
-import api from '~api'
+import navComponent from '@/components/nav-component.vue'
+import modules from '@/components/module-3.vue'
+import api from '@/api'
 export default {
     name: 'index-app',
     components: {

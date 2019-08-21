@@ -18,25 +18,22 @@ fork demo
 $ git clone
 
 // 安装依赖
-$ npm install
-#or
 $ yarn
 
 // 生产模式
-$ npm run build
+$ yarn build
 
 // 开发模式
-$ npm run dev
+$ yarn serve
 
 // eslint 检测
-$ npm run lint
+$ yarn lint
 ```
 
-访问: http://localhost:8080/index
+访问: http://localhost:8084/index
 
 
 # 目录结构
-- /build/          = webpack配置文件目录
 - /dist/           = webpack编译后生成文件目录
 - /src/api/        = axios配置目录
 - /src/assets/     = 静态文件目录
@@ -44,6 +41,4 @@ $ npm run lint
 - /src/modules/    = 多页面模块, 每个模块一个文件夹
 - /src/modules/router    = 多页面模块之带路由模块的例子
 - /src/modules/vuex    = 多页面模块之带路由和vuex的模块的例子
-- /static/         = 静态文件目录
-- /template/       = html文件模版
 - /utils/          = 一些有用的插件

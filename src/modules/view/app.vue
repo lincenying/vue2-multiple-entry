@@ -5,9 +5,9 @@
     </div>
 </template>
 <script>
-import navComponent from '~components/nav-component.vue'
-import views from '~components/module-view.vue'
-import api from '~api'
+import navComponent from '@/components/nav-component.vue'
+import views from '@/components/module-view.vue'
+import api from '@/api'
 export default {
     components: {
         navComponent,

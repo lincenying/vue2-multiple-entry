@@ -1,4 +1,5 @@
-import '~polyfill'
+import '@/polyfill'
+
 import Vue from 'vue'
 import Meta from 'vue-meta'
 import App from './app.vue'

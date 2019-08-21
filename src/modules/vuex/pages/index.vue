@@ -4,12 +4,10 @@
 <script>
 import ls from 'store2'
 import { mapGetters } from 'vuex'
-import navComponent from '~components/nav-component.vue'
 import modules from '../components/lists.vue'
 export default {
     name: 'vuex-index',
     components: {
-        navComponent,
         modules
     },
     data() {

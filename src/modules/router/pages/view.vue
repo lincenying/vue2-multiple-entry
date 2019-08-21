@@ -2,12 +2,10 @@
     <views :data="item" />
 </template>
 <script>
-import navComponent from '~components/nav-component.vue'
 import views from '../components/view.vue'
-import api from '~api'
+import api from '@/api'
 export default {
     components: {
-        navComponent,
         views
     },
     data() {
