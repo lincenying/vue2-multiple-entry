@@ -2,8 +2,9 @@
     <views :data="item" />
 </template>
 <script>
-import views from '../components/view.vue'
 import api from '@/api'
+import views from '../components/view.vue'
+
 export default {
     components: {
         views
