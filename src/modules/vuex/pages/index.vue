@@ -2,9 +2,11 @@
     <modules @loadMore="loadMore" :loading="loading" :topics="topics.data" />
 </template>
 <script>
-import ls from 'store2'
 import { mapGetters } from 'vuex'
+import ls from 'store2'
+
 import modules from '../components/lists.vue'
+
 export default {
     name: 'vuex-index',
     components: {

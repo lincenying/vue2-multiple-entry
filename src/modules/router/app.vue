@@ -1,7 +1,9 @@
 <template>
     <div class="g-doc">
         <nav-component :current="4" />
-        <router-view :key="key" class="body"></router-view>
+        <keep-alive :include="cachedViews">
+            <router-view :key="key" class="body"></router-view>
+        </keep-alive>
         <!-- <router-view :key="key" class="body" v-transition></router-view> -->
     </div>
 </template>
@@ -15,6 +17,11 @@ export default {
     name: 'router-app',
     components: {
         navComponent
+    },
+    data() {
+        return {
+            cachedViews: ['router-index']
+        }
     },
     computed: {
         key() {

@@ -4,6 +4,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import views from '../components/view.vue'
+
 export default {
     name: 'vuex-view',
     components: {
