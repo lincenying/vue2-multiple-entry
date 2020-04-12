@@ -1,8 +1,8 @@
-import axios from 'axios'
-import qs from 'qs'
-import NProgress from 'nprogress'
 import config from '@/api/config'
 import { setMessage } from '@/utils'
+import axios from 'axios'
+import NProgress from 'nprogress'
+import qs from 'qs'
 
 axios.interceptors.request.use(
     config => {
@@ -12,27 +12,28 @@ axios.interceptors.request.use(
     error => Promise.reject(error)
 )
 
-axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
+axios.interceptors.response.use(
+    response => response,
+    error => Promise.resolve(error.response)
+)
 
 function checkStatus(response) {
     NProgress.done()
     if (response.status === 200 || response.status === 304) {
-        return response
+        return response.data
     }
     return {
-        data: {
-            success: false,
-            message: response.statusText,
-            data: response.statusText
-        }
+        success: false,
+        message: response.statusText,
+        data: response.statusText
     }
 }
 
 function checkCode(res) {
-    if (!res.data.success) {
-        setMessage(res.data.message || res.data.data)
+    if (!res.success) {
+        setMessage(res.message || res.data)
     }
-    return res.data
+    return res
 }
 
 export default {
