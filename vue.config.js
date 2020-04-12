@@ -1,3 +1,4 @@
+/* eslint-disable no-inline-comments */
 const entris = require('./entris')
 const pages = {}
 Object.keys(entris).forEach(item => {
@@ -14,7 +15,16 @@ Object.keys(entris).forEach(item => {
 module.exports = {
     pages,
     configureWebpack: {
-        devtool: 'source-map'
+        devtool: 'source-map',
+        performance: {
+            hints: 'warning',
+            maxAssetSize: 30000000, // 单位为字节
+            maxEntrypointSize: 50000000, // 单位为字节
+            assetFilter(assetFilename) {
+                // 提供资源文件名的断言函数
+                return assetFilename.endsWith('.css') || assetFilename.endsWith('.js')
+            }
+        }
     },
     chainWebpack: config => {
         config.module
