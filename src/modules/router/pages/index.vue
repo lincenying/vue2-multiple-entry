@@ -1,5 +1,5 @@
 <template>
-    <modules :topics="topics" @get-data="getData" :page="page" />
+    <modules :topics="topics" @get-data="getData" :page="page" :loading="loading" />
 </template>
 <script>
 import ls from 'store2'
@@ -15,7 +15,8 @@ export default {
     data() {
         return {
             topics: [],
-            page: 1
+            page: 1,
+            loading: false
         }
     },
     async mounted() {
@@ -30,7 +31,9 @@ export default {
     },
     methods: {
         async getData(page = 1) {
+            if (page > 1) this.loading = true
             const { success, data } = await api.get('topics', { page })
+            this.loading = false
             if (success) {
                 this.page = page
                 this.topics = this.topics.concat(data)
