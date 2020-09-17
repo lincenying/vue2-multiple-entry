@@ -13,6 +13,8 @@ Object.keys(entris).forEach(item => {
 })
 
 module.exports = {
+    publicPath: '/',
+    // publicPath: '/vue2-multiple-entry/',
     pages,
     configureWebpack: {
         devtool: 'source-map',
