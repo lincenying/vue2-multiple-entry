@@ -1,6 +1,7 @@
 .DS_Store
 .idea/
 node_modules
+/backup
 /dist
 
 # local env files
@@ -23,7 +24,7 @@ yarn-error.log*
 
 package-lock.json
 admin.lock
-yarn-error.log
 server/config/secret.js
 server/config/mpapp.js
 server/config/shihua.js
+server/config/qiniu.js
