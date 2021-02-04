@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-import '../assets/less/style.less'
+import '../assets/scss/style.scss'
 export default {
     props: ['current']
 }
